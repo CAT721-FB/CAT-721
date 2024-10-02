@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAT 721</title>
+    <style>
+        body {
+            background-image: url('https://example.com/bitcoin-logo.png'); /* Replace with your Bitcoin logo URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .search-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .cat-title {
+            font-size: 36px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        .cat20-link {
+            font-size: 24px;
+            color: #007BFF;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .cat20-link:hover {
+            text-decoration: underline;
+        }
+        label {
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: white;
+        }
+        input[type="text"] {
+            width: 400px;
+            height: 50px;
+            padding: 10px;
+            font-size: 20px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 15px 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: white;
+        }
+        .mint-box {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            width: 150px;
+        }
+        .mint-button {
+            background-color: #28a745;
+            width: 100%;
+        }
+        .mint-button:hover {
+            background-color: #218838;
+        }
+        @media (max-width: 600px) {
+            .search-container {
+                width: 90%;
+            }
+            .cat-title {
+                font-size: 28px;
+            }
+            .cat20-link {
+                font-size: 18px;
+                padding: 3px 5px;
+            }
+            input[type="text"] {
+                width: 100%;
+            }
+            .mint-box {
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://cat20.app/" class="cat20-link" target="_blank">CAT 20</a>
+    <div class="search-container">
+        <div class="cat-title">CAT 721</div>
+        <label for="btcAddress">Enter Fractal BTC Address</label>
+        <input type="text" id="btcAddress" placeholder="Search Your CAT721">
+        <button type="button" onclick="searchNFT()">Search</button>
+        <div class="result" id="result"></div>
+    </div>
+    <div class="mint-box">
+        <h2 style="color: white; font-size: 18px; margin: 0;">Mint CATIZEN</h2>
+        <button class="mint-button" onclick="mintCATIZEN()">Mint</button>
+    </div>
+
+    <script>
+        function searchNFT() {
+            const btcAddressInput = document.getElementById('btcAddress');
+            const btcAddress = btcAddressInput.value.trim();
+            const resultDiv = document.getElementById('result');
+
+            // List of valid addresses
+            const validAddresses = [
+                'bc1plgmxs0srmdk9zejw4pfn4efzwfk4dl302vl705churanr6pqwwcs7vqxa4',
+                'bc1ptcdphrs7edch3tehl3mcnhleccjz26ys2vn8uvyc3gu97u5ptlhqjx9cx5',
+                'bc1pfnn95569l25gp06t4p9jl06cahesgg3qdt4ad8d97k3w0vp2shaqw2zep4',
+                'bc1pltn0yysl48zs3ax36j6muhqhhduvy7s0h8cpjh5a2mh94vsukwjswrnpay',
+                'bc1pzw9kcx63gta6l98x9tpqxw0pswkucyzluyzeuzdw7j8qv80x3lcqh2k5pp',
+                'bc1prhxat8jkz39n0vpym4msnnsplf3px7ae3mrp7hkwmw9ryr620q2s3al6md',
+                'bc1p50esn3cwly9d8jm47wjjhq8lek2j07mtgce3vqfaac5ueefghhzqh52z6q',
+                'bc1p9t6k9c3jatqstcat8zzw7va9jps8pkq6kmhmc5vjsw7g9l8kctrsc2kxtu',
+                'bc1p8vnjrtqehtyggx0rrxvz8zdyjds7swhs4wc5zlj7atlehle0cp7q0yrw94',
+                'bc1pm0yevwv6tg69qktaqatjv8z4lhqt7wqjup3rdv2pgryqtqd23hxqykstv5',
+                'bc1ps3zqv5x9qjx3kc4tdhlpxyz2j6ufpnzm00k0k7rkrrp7ceg48fus0e65e8',
+                'bc1pcguadjp9v0q9k8p5dxc44xm9zgsjdstj99hhl8d2t54g8a9qvuqq95ng24',
+                'bc1pd4qv934fw3w8vxec89839v5lgd6gvlr9ww38zwds0c4e7l6e7daslf29kk',
+                'bc1pfq5eqkgtukv2d6cx5t7rt6nydxakq5zp47r0yn3ul36m3hgaztss36q5qh',
+                'bc1p0q8d59tgeuc6fea9czz9tnjladxtspjm4wc6ym7rx5fertxprkvsq022ty',
+                'bc1p6eawu7ajgcpp8wsl7cdzw6t2xnw77sq8vaaph8sfp6w7ypc37j2s82ex9y',
+                'bc1pwzf77y4f7tlu55x5har8hzckz9m3r9vvkgz57wv0l405ssxlt0pqyqrtum',
+                'bc1pz90spnsv7e692pxpf4zjjv94tqysrv7durdhgaetgn0jt5t3cg8qx7kkgt',
+                'bc1pwdkpus93a444hzgm884pacalvmjhmqjegdwywaq90ndgvvsmhexqa22g0z',
+                'bc1pdyuumxxjpkqv0k0fnv2l6qq8gq36c5l6e9tv37dqeh2uaefua0dqnvhnv8',
+                'bc1phhj25ygausyhfeyxgnne6363t6kghfcrn084nyq5u55u8x0whtesr92vrg',
+                'bc1pkg6npk2a0k56rdegdgevju5gz6sc79x2sv80u9dyqrgmq6rn65sslp850n',
+                'bc1p76yj92wxg4pqu7s9ed2pmllp7mudkfpdrldf932r590ymukk52hqkmurxf',
+                'bc1ppqsa8uteqsdc6p4945ex7608emr0gnzwx220uv6y0rqc0r3vv7psyf4pzw',
+                'bc1p58a2haw8sxtyw6ef82nlg7qtw8vlgss8mtd7dv0dve6xs3kd7uaqyevfjn',
+                'bc1pjj482s565ktrxe0kuzwqzz9333yy5u4hm0n7a9hw6rqgu78z2d0qggk7wh',
+                'bc1pq8v8cff7vt9f9h0jw0flhjawjgutl23dn4eyp8tgcdlvs2aq8qsq33g3lc',
+                'bc1pa8f4hm054hc02hlywydcp6p2d2ewz80x6yq72whslzv7ns26rkdsdxdyz6',
+                'bc1pjxcrgvhslv24774r6u690ktt6edajrh4ekjpq95ydcl4gkpgqwussvn4g2',
+                'bc1pdz2jf8jf5jfyr8t2x2knv8axceev7ll7sjfc28cwjzqgc4h7p5ls4xzptp',
+                'bc1py2gmq09rxdk7gacr6ng9kjjgjuk2a46czyc5z60ltldyqcwp6m2s92fc4l',
+                'bc1pkyszyah047wndlvxyzrtvj9ffvrqgaefxdntu3mpc9xgzf6qne6sht2txx',
+                'bc1p96t0pz3s583y952fwuqhpf5vm85lfk805h5pkz22nwxhzc3dwkmsr9fuut',
+                'bc1p7anjmstuxujglfh68tmgjjgrdpuhngcd8a86dfyuwwmlkt8ae9aqt0vuzl',
+                'bc1pr9twsdunghd65drm8ymaq4xymv5kgvzj2axj9dukxt8vuyz8ue8smwp0ss',
+                'bc1pejsseuwn5ceea2ch45ew53xq4qa2xm4lywa3yy78afr2ffzvpg0snd36u9',
+                'bc1px7e904e6n79cv6plr4rhakrhz83cpxlnt5wa4huchv47qs7r2t3qxy270e',
+                'bc1p497epr3hzvwg5maunsx0d85nu39ynv79lzgcjct67q5nagg87zdsx9cmz8',
+                'bc1phesqu848lw40rq2kzx5lywf850zwxxqmxq7ca433de2llgwh03ysfjwyue',
+                'bc1pfnn95569l25gp06t4p9jl06cahesgg3qdt4ad8d97k3w0vp2shaqw2zep4',
+                'bc1prys2gztcgzgv7z75u2nqygm5za40dkmz0zq57e3nf0xkmsvthepq6f56ns',
+                'bc1px86vjqxacl86f4098h3guex3a5zd5r7exnfyc3xkm8c6gr9qj7fsh9jgwv',
+                'bc1plzewkklh9a3hzk8j3kpnj2peqt8te8gyk0zmlj94e378r6dvm8as7quz40',
+                'bc1pzj7cc27lehhsgwm8nwvnlvql0gykw93qulg2e4pkk3h0lc48y2eqaktf3s',
+                'bc1pskwpqzh0q86ynk37f78qw2q2dfjyh8hx038knuc5xmm4g0wvw4nq8zeye8',
+                'bc1p9v9qyad7t5d4mvat7jfn0ptjxvj887qy88007h45ugnnpwu26xdsp07ka5',
+                'bc1pkq5g3xn7q5xwv6jq24l687dq9cevmgp6lua55k7yh4t208a0r0lqved05',
+                'bc1pepk9wyykelpcxujg3jghscyttnx87h8xseup8swnvk58ahc4k2kqxk340n',
+                'bc1p85w5f3g9xle473xt8x67qdw9lmvzk93scpe5ffutq8z5ch8qz4qqj7vgdc',
+                'bc1p6egua89fsaj8vs5ycdqn8nc70y4mpzd3usu82lcr9fvredsgc7lquhux0d',
+                'bc1p7td3x7y720u7glw75smnav0qsgauzvqft79fh5yszjt6xxer8wssjek3wj',
+                'bc1qqf7rddem5u2ppp8fe9u33zkz32pk5gyydcqg3n',
+                'bc1p24we65ntuav3y50yhc2d4eph4qjepx99pae6nnwwtfh63fa255fq0evnc0',
+                'bc1pm73zg8gtw75pmapn3mr92z9q2anuq6rwa7yfqrx006lhxynxtufsfmvz0c',
+                'bc1pa00f28dny0g3vuqy82qc50n6khu8qqqcv670xeg3csf7fzv2gfjq58xnr2',
+                'bc1py2gmq09rxdk7gacr6ng9kjjgjuk2a46czyc5z60ltldyqcwp6m2s92fc4l',
+                'bc1p09w9vdyqzx8eq8rnvr3u32rl0p964ru3yzrl6rwserjt027ly47qfa9v09'
+            ];
+
+            if (validAddresses.includes(btcAddress)) {
+                resultDiv.textContent = "1 CATIZEN NFT";
+            } else {
+                resultDiv.textContent = "NFT NOT FOUND";
+            }
+        }
+
+        function mintCATIZEN() {
+            window.open("https://x.com/catizen_CAT721", "_blank");
+        }
+    </script>
+</body>
+</html>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
